@@ -6,8 +6,8 @@
 
     async function getIndexData() {
         try {
-            const response = await axios.get('/nearl/indexData.json');
-            return response;
+            const response = await axios.get('indexData.json');
+            return response.data;
         } catch (error) {
             console.error(error);
         }
@@ -18,10 +18,13 @@
     createApp({
         data() {
             return {
-                message: 'Hello Vue!',
                 indexData: indexData
             }
         },
-        template: `<div> {{indexData}} </div>`
+        template: `
+        <li v-for='item in indexData' >
+            {{ item.code }}: {{ item.value }}
+        </li>
+        `
     }).mount('#app')
 </script>
