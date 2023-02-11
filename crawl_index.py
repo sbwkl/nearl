@@ -7,7 +7,7 @@ def main():
     for index in index_list:
         res = requests.get('https://www.csindex.com.cn/csindex-home/perf/index-perf-oneday?indexCode=' + index)
         val = res.json().get('data', {}).get('intraDayHeader').get('current')
-        print(index, )
+        print(index, val)
         index_data.append({
             'code': index,
             'value': val
