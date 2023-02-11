@@ -17,8 +17,11 @@ jobs:
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v4
       - uses: jannekem/run-python-script-action@v1
-        with:
-          script: |
-            import crawl_index
-            if __name__ == '__main__':
-                crawl_index.main()
+        # with:
+        #   script: |
+        #     import crawl_index
+        #     if __name__ == '__main__':
+        #         crawl_index.main()
+      - name: execute py script
+        run: |
+          python crawl_index.py

@@ -14,3 +14,7 @@ def main():
         })
     with open('indexData.json', 'w') as f:
         f.write(json.dumps(index_data))
+
+
+if __name__ == '__main__':
+    main()
