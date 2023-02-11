@@ -1,37 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <title>Page Title</title>
-</head>
-<body>
-
-<h1>Hello world</h1>
 <div id="app">{{ message }}</div>
 
 <script type="module">
+    import { axios } from 'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js'
     import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 
-    createApp({
-    data() {
-      return {
-        message: 'Hello Vue!'
-      }
+    async function getIndexData() {
+        try {
+            const response = await axios.get('/nearl/indexData.json');
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
     }
-  }).mount('#app')
-// (async function() {
-//     async function getIndexData() {
-//         try {
-//             const response = await axios.get('/nearl/indexData.json');
-//             return response;
-//         } catch (error) {
-//             console.error(error);
-//         }
-//     }
 
-//     const indexData = await getIndexData();
-//     console.log(indexData);
-// })();
+    const indexData = await getIndexData();
+    console.log(indexData);
+    createApp({
+        data() {
+            return {
+                message: 'Hello Vue!',
+                indexData: this.indexData
+            }
+        },
+        template: `<div> {{indexData}} </div>`
+    }).mount('#app')
 </script>
-</body>
-</html>
