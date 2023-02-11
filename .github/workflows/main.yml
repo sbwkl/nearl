@@ -14,10 +14,11 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
       - uses: jannekem/run-python-script-action@v1
         with:
           script: |
-            import os
-            print("Directory contents:")
-            for f in os.listdir():
-                print(f)
+            import crawl_index
+            if __name__ == '__main__':
+                crawl_index.main()
