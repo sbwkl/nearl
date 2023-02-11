@@ -10,19 +10,19 @@
 <div id="app"></div>
 
 <script>
-    (function() {
-        async function getIndexData() {
-            try {
-                const response = await axios.get('/indexData.json');
-                return response;
-            } catch (error) {
-                console.error(error);
-            }
+(async function() {
+    async function getIndexData() {
+        try {
+            const response = await axios.get('/nearl/indexData.json');
+            return response;
+        } catch (error) {
+            console.error(error);
         }
+    }
 
-        const indexData = await getIndexData();
-        console.log(response);
-    })();
+    const indexData = await getIndexData();
+    console.log(indexData);
+})();
 </script>
 </body>
 </html>
