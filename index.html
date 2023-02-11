@@ -7,22 +7,31 @@
 <body>
 
 <h1>Hello world</h1>
-<div id="app"></div>
+<div id="app">{{ message }}</div>
 
-<script>
-(async function() {
-    async function getIndexData() {
-        try {
-            const response = await axios.get('/nearl/indexData.json');
-            return response;
-        } catch (error) {
-            console.error(error);
-        }
+<script type="module">
+    import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+    data() {
+      return {
+        message: 'Hello Vue!'
+      }
     }
+  }).mount('#app')
+// (async function() {
+//     async function getIndexData() {
+//         try {
+//             const response = await axios.get('/nearl/indexData.json');
+//             return response;
+//         } catch (error) {
+//             console.error(error);
+//         }
+//     }
 
-    const indexData = await getIndexData();
-    console.log(indexData);
-})();
+//     const indexData = await getIndexData();
+//     console.log(indexData);
+// })();
 </script>
 </body>
 </html>
