@@ -24,4 +24,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
   deploy:
+    name: deploy to github pages
+    needs: build
     uses: ./.github/workflows/static.yml
