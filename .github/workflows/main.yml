@@ -1,9 +1,20 @@
-name: data-auto-update
+name: Auto update data & deploy to Pages
 
-on: workflow_dispatch
+on: 
+  schedule:
+    - cron: '45/30 9-12,13-15 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -19,11 +30,22 @@ jobs:
       - name: execute py script
         run: |
           python crawl_index.py
-      - name: Commit & Push changes
-        uses: actions-js/push@master
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-  deploy:
-    name: deploy to github pages
-    needs: build
-    uses: ./.github/workflows/static.yml
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+      
+      # - name: Commit & Push changes
+      #   uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+  # deploy:
+  #   name: deploy to github pages
+  #   needs: build
+  #   uses: ./.github/workflows/static.yml
