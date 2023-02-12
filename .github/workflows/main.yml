@@ -23,5 +23,5 @@ jobs:
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: deploy to github pages
-        uses: sbwkl/nearl/.github/workflows/static.yml@main
+  deploy:
+    uses: .github/workflows/static.yml
