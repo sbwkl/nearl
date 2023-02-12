@@ -7,9 +7,13 @@
 </head>
 <body>
   <div id="app">
-    <el-table :data="indexData">
-        <el-table-column prop="code" label="编码"></el-table-column>
-        <el-table-column prop="value" label="指数"></el-table-column>
+    <div>最后更新时间：{{ gmtModified | timeFormat }}</div>
+    <el-table :data="itemList">
+        <el-table-column sortable prop="code" label="编码"></el-table-column>
+        <el-table-column sortable prop="name" label="指数"></el-table-column>
+        <el-table-column sortable prop="prop" label="压力位"></el-table-column>
+        <el-table-column sortable prop="value" label="当前值"></el-table-column>
+        <el-table-column sortable prop="cond" label="距离支撑"></el-table-column>
     </el-table>
   </div>
 </body>
@@ -18,6 +22,7 @@
   <!-- import JavaScript -->
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" ></script>
 
   <script>
     (async function() {
@@ -30,12 +35,38 @@
         }
       }
 
+      async function getIndexInfo() {
+        try {
+          const response = await axios.get('indexInfo.json');
+          return response.data;
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
       const indexData = await getIndexData();
+      const indexInfo = await getIndexInfo();
+      const itemList = [];
+
+      for (let e of indexInfo) {
+        const t = indexData.itemList.filter(i => {
+          return i.code === e.code;
+        })[0] || {}
+        const item = Object.assign(e, t);
+        item['cond'] = ((e['prop'] - (t['value'] || 0)) * 100 / e['prop']).toFixed(2);
+        itemList.push(item);
+      }
       new Vue({
         el: '#app',
         data: function() {
           return {
-              indexData: indexData 
+              gmtModified: indexData.gmtModified,
+              itemList: itemList
+          }
+        },
+        filters: {
+          timeFormat: function(timestamp) {
+            return moment(timestamp * 1000).format('YYYY-MM-DD HH:mm');
           }
         }
       })
