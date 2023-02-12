@@ -20,28 +20,25 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <script>
-      (async function() {
-
-        async function getIndexData() {
+    (async function() {
+      async function getIndexData() {
         try {
             const response = await axios.get('indexData.json');
             return response.data;
         } catch (error) {
             console.error(error);
         }
-    }
-
-    const indexData = await getIndexData();
-    console.log(indexData);
-    new Vue({
-      el: '#app',
-      data: function() {
-        return { 
-            visible: false,
-            indexData: indexData 
-        }
       }
-    })
-      })()
+
+      const indexData = await getIndexData();
+      new Vue({
+        el: '#app',
+        data: function() {
+          return {
+              indexData: indexData 
+          }
+        }
+      })
+    })()
   </script>
 </html>

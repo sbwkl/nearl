@@ -1,16 +1,11 @@
-name: Run Script
+name: data-auto-update
 
 on: workflow_dispatch
-  # push:
-  #   branches: [ master ]
-  # pull_request:
-  #   branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v3
       - uses: actions/checkout@master
         with:
           persist-credentials: false
@@ -21,11 +16,6 @@ jobs:
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v4
       - uses: jannekem/run-python-script-action@v1
-        # with:
-        #   script: |
-        #     import crawl_index
-        #     if __name__ == '__main__':
-        #         crawl_index.main()
       - name: execute py script
         run: |
           python crawl_index.py
