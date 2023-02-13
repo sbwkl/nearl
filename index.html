@@ -12,7 +12,7 @@
         <el-table-column sortable prop="code" label="编码"></el-table-column>
         <el-table-column sortable prop="name" label="指数"></el-table-column>
         <el-table-column sortable prop="prop" label="压力位"></el-table-column>
-        <el-table-column sortable prop="value" label="当前值"></el-table-column>
+        <el-table-column sortable prop="current" label="当前值"></el-table-column>
         <el-table-column sortable prop="cond" label="距离支撑"></el-table-column>
     </el-table>
   </div>
@@ -50,10 +50,10 @@
 
       for (let e of indexInfo) {
         const t = indexData.itemList.filter(i => {
-          return i.code === e.code;
+          return i.indexCode === e.code;
         })[0] || {}
         const item = Object.assign(e, t);
-        item['cond'] = ((e['prop'] - (t['value'] || 0)) * 100 / e['prop']).toFixed(2);
+        item['cond'] = ((e['prop'] - (t['current'] || 0)) * 100 / e['prop']).toFixed(2);
         itemList.push(item);
       }
       new Vue({
