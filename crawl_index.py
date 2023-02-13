@@ -12,7 +12,10 @@ def main():
     # for index in index_list:
         try:
             res = requests.get('https://www.csindex.com.cn/csindex-home/perf/index-perf-oneday?indexCode=' + index.get('code'))
-            item_list.append(res.json().get('data', {}).get('intraDayHeader'))
+            intra_day = res.json().get('data', {}).get('intraDayHeader', {})
+            if 'indexCode' not in intra_day:
+                intra_day['indexCode'] = index.get('code')
+            item_list.append(intra_day)
         except Exception as e:
             pass
     index_data = {
@@ -21,7 +24,6 @@ def main():
     }
     with open('indexData.json', 'w') as f:
         f.write(json.dumps(index_data))
-
 
 if __name__ == '__main__':
     main()

@@ -50,7 +50,7 @@
 
       for (let e of indexInfo) {
         const t = indexData.itemList.filter(i => {
-          return i.indexCode === e.code;
+          return i != null && i.indexCode === e.code;
         })[0] || {}
         const item = Object.assign(e, t);
         item['cond'] = ((e['prop'] - (t['current'] || 0)) * 100 / e['prop']).toFixed(2);
